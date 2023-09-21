@@ -1,0 +1,340 @@
+/*
+Theme Name: Pre-order
+Version: 1.0
+Author: PutaDesign
+*/
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+@font-face {
+  font-family: "SFUFutura";
+  src: url("assets/fonts/SFUFutura.woff") format("woff"), url("assets/fonts/SFUFutura.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "SFUFuturaHeavy";
+  src: url("assets/fonts/SFUFuturaHeavy.TTF") format("TrueType");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "SFUFuturaOblique";
+  src: url("assets/fonts/SFUFuturaOblique.TTF") format("TrueType");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --futura-font: "SFUFutura";
+  --futura-bold-font: "SFUFuturaHeavy";
+  --futura-oblique-font: "SFUFuturaOblique";
+}
+
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+input,
+button,
+textarea,
+select {
+  font-family: var(--futura-font);
+  border: 0;
+  background-color: transparent;
+}
+
+input:focus-visible,
+button:focus-visible,
+textarea:focus-visible {
+  outline: 0;
+  border: 0;
+}
+
+input[type=date]::-webkit-inner-spin-button, input[type=date]::-webkit-calendar-picker-indicator {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-y: scroll;
+  font-family: var(--futura-font) !important;
+  font-size: 18px;
+  /* margin-top: 0 !important; */
+}
+
+body {
+  font-family: var(--futura-font);
+  font-size: 18px;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+li {
+  list-style: none;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+p,
+li {
+  line-height: 30px;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.tac {
+  text-align: center;
+}
+
+.br3px {
+  border-radius: 3px;
+}
+
+.br5px {
+  border-radius: 5px;
+}
+
+.br10px {
+  border-radius: 10px;
+}
+
+.br20px {
+  border-radius: 20px;
+}
+
+.br30px {
+  border-radius: 30px;
+}
+
+.br50 {
+  border-radius: 50%;
+}
+
+.ovh {
+  overflow: hidden;
+}
+
+.transition-05s {
+  transition: 0.5s;
+}
+
+.black-text {
+  color: #333;
+}
+
+.white-text {
+  color: #fff;
+}
+
+.blue-dark-bg {
+  background-color: var(--blue-dark);
+}
+
+.blue-dark-text {
+  color: var(--blue-dark);
+}
+
+.white-bg {
+  background-color: #fff;
+}
+
+.futura-bold-font {
+  font-family: var(--futura-bold-font);
+}
+
+.pr {
+  position: relative;
+}
+
+.pa {
+  position: absolute;
+}
+
+.df {
+  display: flex;
+}
+
+.aic {
+  align-items: center;
+}
+
+.jcsb {
+  justify-content: space-between;
+}
+
+.jcc {
+  justify-content: center;
+}
+
+.fs-14px {
+  font-size: 14px;
+}
+
+.fs-15px {
+  font-size: 15.5px;
+}
+
+.fs-18px {
+  font-size: 18px;
+}
+
+.fs-21px {
+  font-size: 21px;
+}
+
+.fs-24px {
+  font-size: 24px;
+}
+
+.fs-28px {
+  font-size: 28px;
+}
+
+.fw-u {
+  font-weight: unset;
+}
+
+.fw-b {
+  font-weight: bold;
+}
+
+.w100 {
+  width: 100%;
+}
+
+.h100 {
+  height: 100%;
+}
+
+.container-big,
+.container-all {
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.word-break {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.word-break-2 {
+  -webkit-line-clamp: 2;
+}
+
+.word-break-3 {
+  -webkit-line-clamp: 3;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+aside p,
+aside h2,
+aside h3,
+aside h4,
+aside h5,
+aside ul,
+aside ol,
+aside ul li,
+aside ol li {
+  margin: 12px 0;
+}
+
+.quatrang {
+  padding-top: 50px;
+}
+.quatrang .page-numbers {
+  width: 34px;
+  height: 34px;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #333;
+  font-size: 15px;
+  transition: 0.5s;
+}
+.quatrang .page-numbers.current {
+  background-color: var(--blue);
+  color: #fff;
+}
+.quatrang .page-numbers + .page-numbers {
+  margin-left: 10px;
+}
+.quatrang .page-numbers:hover {
+  background-color: var(--blue);
+  color: #fff;
+}
+
+.circle-loading {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  position: relative;
+  margin: 0 auto;
+}
+
+.circle-loading:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  border: 4px solid transparent;
+  border-right-color: var(--blue-green);
+  border-bottom-color: var(--blue-dark);
+  animation: circleLoading 1s forwards infinite linear;
+}
+
+@media screen and (min-width: 1300px) {
+  .container-big {
+    max-width: 1520px;
+  }
+  .container-all {
+    max-width: 1300px;
+  }
+}
+@media screen and (min-width: 1600px) {
+  .container-big {
+    max-width: 1520px;
+  }
+  .container-all {
+    max-width: 1300px;
+  }
+}
+@keyframes circleLoading {
+  to {
+    transform: rotate(360deg);
+  }
+}

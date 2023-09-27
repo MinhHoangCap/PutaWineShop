@@ -24,73 +24,121 @@ function vietnamese_currency_format(money){
     const formated = new Intl.NumberFormat('vi-VN', config).format(money) + "đ";
     return formated;
 }
-document.addEventListener( 'DOMContentLoaded', function() {
-    var splide = new Splide( '.splide.blog', {
-        direction: 'ttb',
-        height   : '30rem',
-        wheel    : true,
-        perPage: 2,
-        gap: '50px',
-        classes: {
-            arrows: 'splide__arrows blogs-arrows',
-            arrow : 'splide__arrow blog-arrow',
-            prev  : 'splide__arrow--prev blog-prev',
-            next  : 'splide__arrow--next blog-next',
-      },
+if(document.querySelector(".splide.blog")){
 
+    document.addEventListener( 'DOMContentLoaded', function() {
+        var splide = new Splide( '.splide.blog', {
+            
+            
+            direction: 'ttb',
+            // wheel    : true,
+            pagination: false,
+            breakpoints: {
+                1600:{
+                    perPage: 2,
+                    gap: '50px',
+                    height   : '30rem',
+                },
+                992:{
+                    perPage: 1,
+                    // gap: "0",
+                    
+                    height   : '19rem',
+                },
+                769: {
+                    perPage: 1,
+                    // gap: "0",
+                    
+                    height   : '19rem',
+                },
+            },
+            classes: {
+                arrows: 'splide__arrows blogs-arrows',
+                arrow : 'splide__arrow blog-arrow',
+                prev  : 'splide__arrow--prev blog-prev',
+                next  : 'splide__arrow--next blog-next',
+          },
+    
+        } );
+        splide.mount();
     } );
-    splide.mount();
-} );
-document.addEventListener( 'DOMContentLoaded', function() {
-    var splide = new Splide( '.splide.feedback', {
-        type  : 'fade',
-        rewind: true,
-        autoplay: true,
+}
+if(document.querySelector(".splide.feedback")){
+    document.addEventListener( 'DOMContentLoaded', function() {
+        var splide = new Splide( '.splide.feedback', {
+            // type  : 'fade',
+            rewind: true,
+            autoplay: true,
+
+
+            responsive: [
+               
+                
+                {
+                  breakpoint: 480,
+                  settings: {
+                    drag   : 'free',
+                    perMove: 1,
+
+                    // slidesToScroll: 1
+                  }
+                }
+            
+              ]
+               
+
+
+        } );
+        splide.mount();
     } );
-    splide.mount();
-} );
+}
+
     // blogs.mount();
 // get JSON url
 var WpJsonUrl = document.querySelector('link[rel="https://api.w.org/"]').href
 // then take out the '/wp-json/' part
 var homeurl = WpJsonUrl.replace('/wp-json/','');
-$(document).ready(function(){
-    $('.taxonomy__list').slick({
-        dots: true,
-  infinite: false,
-  speed: 1000,
-  slidesToShow: 4,
-  slidesToScroll: 1,
-  infinite: true,
-  autoplay: true,
-  autoplaySpeed: 2000,
-  responsive: [
-    {
-      breakpoint: 1024,
-      settings: {
-        slidesToShow: 3,
-        // slidesToScroll: 1,
-        dots: true
-      }
-    },
-    {
-      breakpoint: 600,
-      settings: {
-        slidesToShow: 2,
-        // slidesToScroll: 2
-      }
-    },
-    {
-      breakpoint: 480,
-      settings: {
-        slidesToShow: 1,
-        // slidesToScroll: 1
-      }
-    }
-
-  ]
+if(document.querySelector(".taxonomy__list")){
+    $(document).ready(function(){
+        $('.taxonomy__list').slick({
+            dots: true,
+      infinite: false,
+      speed: 1000,
+      slidesToShow: 4,
+      slidesToScroll: 1,
+      infinite: true,
+      autoplay: true,
+      autoplaySpeed: 2000,
+    //   gap: 5,
+      responsive: [
+        {
+          breakpoint: 1024,
+          settings: {
+            slidesToShow: 3,
+            // slidesToScroll: 1,
+            dots: true
+          }
+        },
+        {
+          breakpoint: 600,
+          settings: {
+            slidesToShow: 2,
+            // slidesToScroll: 2
+          }
+        },
+        {
+          breakpoint: 480,
+          settings: {
+            slidesToShow: 1,
+            // slidesToScroll: 1
+          }
+        }
+    
+      ]
+        });
     });
-});
+
+}
 
 var buy_btns= document.querySelectorAll('.buy__btn');
 buy_btns.forEach((element)=>{
@@ -105,11 +153,47 @@ buy_btns.forEach((element)=>{
                 count : 1
             }
         $.post(url,data,function(response){
-			show_add_cart();
+			toast({
+                title: "Thêm vào giỏ hàng",
+                message: "Đã thêm vào giỏ hàng thành công",
+                type: "success",
+                duration: 1000
+              });
             response = JSON.parse(response);
             document.querySelector('.cart_count').style.display = 'block';
             document.querySelector('.cart_count--text').textContent = Object.keys(response).length;
 
+        })
+    })
+    
+})
+
+var buy_favourite_btns= document.querySelectorAll('.buy__favourite_btn');
+buy_favourite_btns.forEach((element)=>{
+    element.addEventListener('click',(e)=>{
+
+        e.preventDefault(); 
+        console.log(element.parentElement.parentElement.getAttribute("product_id"));
+        var url = homeurl + "/wp-admin/admin-ajax.php";
+            var data = {
+                action : 'buy_list',
+                id : element.parentElement.parentElement.getAttribute("product_id"),
+                count : 1
+            }
+        $.post(url,data,function(response){
+			// show_add_cart();
+            toast({
+                title: "Thêm vào giỏ hàng",
+                message: "Đã thêm vào giỏ hàng",
+                type: "success",
+                duration: 1000
+              });
+            response = JSON.parse(response);
+            document.querySelector('.cart_count').style.display = 'block';
+            document.querySelector('.cart_count--text').textContent = Object.keys(response).length;
+            setTimeout(()=>{
+                document.location.href = homeurl + "/cart";
+            },2000);
         })
     })
     
@@ -136,24 +220,24 @@ if(sum_cart_exist){
                     action : 'remove_cart',
                     id : element.id,
                 };
-            console.log("dax khoi tao");
             $.post(url,data,function(response){
-                console.log("da post");
+                
                 console.log(response);
-            })
-            element.parentElement.parentElement.remove();
+                element.parentElement.parentElement.remove();
     
-            if(document.querySelector('.cart_list').rows.length === 1){
-                document.querySelector('.cart_list').remove();
-                document.querySelector('.display_sum_cart').remove();
-                document.querySelector('.message').innerHTML ="Không có mặt hàng trong giỏ hàng";
-                document.querySelector('.cart_count--text').parentElement.style.display='none';
-                document.querySelector('.update_btn').style.display='none';
-            }
-            else{
-                document.querySelector('.cart_count--text').textContent = document.querySelector('.cart_list').rows.length -1 ;
-
-            }
+                if(document.querySelector('.cart_list').rows.length === 1){
+                    document.querySelector('.cart_list').remove();
+                    document.querySelector('.display_sum_cart').remove();
+                    document.querySelector('.message').innerHTML ="Không có mặt hàng trong giỏ hàng";
+                    document.querySelector('.cart_count--text').parentElement.style.display='none';
+                    document.querySelector('.update_btn').style.display='none';
+                }
+                else{
+                    document.querySelector('.cart_count--text').textContent = document.querySelector('.cart_list').rows.length -1 ;
+    
+                }
+            })
+           
         })
     })
 }
@@ -443,6 +527,10 @@ if(payment_btn){
         })
         
         if($("#payment-form").valid()){
+			var loader = payment_btn.parentElement.querySelector(".loader");
+            
+			loader.style.display="block";
+			payment_btn.style.display="none";
             var url = homeurl + "/wp-admin/admin-ajax.php";
             var data = {
                 action : 'payment',
@@ -452,10 +540,21 @@ if(payment_btn){
             $.post(url,data,function(response){
                     console.log("da post");
                     console.log(response);
-				setTimeout(()=>{
- 					document.location.href = homeurl;
-            },2000);                  
-                    show_payment();
+                    var status =  response.split(":");
+                    if(status[0]== "success"){
+                        setTimeout(()=>{
+							 loader.style.display="none";
+							 payment_btn.style.display="block";
+                             document.location.href = homeurl;
+                    },2000);                  
+
+                    }
+            toast({
+                title: status[0],
+                message: status[1],
+                type: status[0],
+                duration: 1000
+              });
 				
                 })
 
@@ -464,24 +563,26 @@ if(payment_btn){
 })
 }
 
-
 var menu_btn = document.querySelector('.menu_btn');
 if(menu_btn){
 
     menu_btn.addEventListener('click',()=>{
-        if(document.querySelector('.menu_home').style.display === 'none')
-            document.querySelector('.menu_home').style.display = 'flex';
-        else
-            document.querySelector('.menu_home').style.display = 'none';
-    
-    
-        // if(document.querySelector('.nav_not_home').style.display === 'none')
-        //     document.querySelector('.nav_not_home').style.display = 'flex';
+        // if(document.querySelector('.menu_home').style.transform == 'none')
+        //     document.querySelector('.menu_home').style.display = 'flex';
         // else
-        //     document.querySelector('.nav_not_home').style.display = 'none';
+        //     document.querySelector('.menu_home').style.display = 'none';
+        
+        document.querySelector('.menu').style.transform = "translate(0, 0)";
+    
+       
     })
 }
-
+var close_menu_btn = document.querySelector(".close_menu_btn");
+if(close_menu_btn){
+    close_menu_btn.addEventListener('click',()=>{
+        document.querySelector('.menu').style.transform = "translate(-100%, 0)";
+    })
+}
 var product_detail = document.querySelector(".product_detail_other-info");
 if(product_detail){
     
@@ -501,11 +602,11 @@ if(product_detail){
             }
     
         });
-    var product_detail_btn = product_detail.querySelector(".count__button").querySelector("button")
+    var product_detail_btn = product_detail.querySelector(".count__button").querySelector("button");
     product_detail_btn.addEventListener('click',(e)=>{
         e.preventDefault(); 
         // console.log("dax gui");
-        var url = window.location.host+"/wp-admin/admin-ajax.php";
+        var url =homeurl + "/wp-admin/admin-ajax.php";
         var data = {
             action : 'buy_list',
             id : product_detail_btn.id,
@@ -515,6 +616,12 @@ if(product_detail){
       
         $.post(url,data,function(response){
             console.log(response);
+            toast({
+                title: "Thêm vào giỏ hàng",
+                message: "Đã thêm vào giỏ hàng thành công",
+                type: "success",
+                duration: 1000
+              });
         })
     })
 }
@@ -539,27 +646,38 @@ function topFunction() {
   document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 }
 ////mua trong chi tiết san phẩm
-var buy_single_btn= document.querySelector('.buy__single_btn');
-if(buy_single_btn){
-    buy_single_btn.addEventListener('click',(e)=>{
+// var buy_single_btn= document.querySelector('.buy__single_btn');
+// if(buy_single_btn){
+//     buy_single_btn.addEventListener('click',(e)=>{
         
-        e.preventDefault(); 
+//         e.preventDefault(); 
         
-        var url = "/academyhoangwine/wp-admin/admin-ajax.php";
-            var data = {
-                action : 'buy_list',
-                id : buy_single_btn.id,
-                count : Number(buy_single_btn.parentElement.querySelector('.count_wrapper').querySelector('.product_count').value)
-            }
-        $.post(url,data,function(response){
-            alert("Đã thêm vào giỏ hàng");
-            response = JSON.parse(response);
-            document.querySelector('.cart_count').style.display = 'block';
-            document.querySelector('.cart_count--text').textContent = Object.keys(response).length;
-
-        })
-    })
-}
+//         var url = homeurl + "/wp-admin/admin-ajax.php";
+//             var data = {
+//                 action : 'buy_list',
+//                 id : buy_single_btn.id,
+//                 count : Number(buy_single_btn.parentElement.querySelector('.count_wrapper').querySelector('.product_count').value)
+//             }
+//         console.log(data.count);
+//         $.post(url,data,function(response){
+//             console.log(response);
+//             response = JSON.parse(response);
+//             document.querySelector('.cart_count').style.display = 'block';
+//             document.querySelector('.cart_count--text').textContent = Object.keys(response).length;
+//             toast({
+//                 title: "Thành công",
+//                 message: "Đã bỏ vào giỏ hàng",
+//                 type: "success",
+//                 duration: 1000
+//             });
+//             setTimeout(()=>{
+//                 // document.location.href =homeurl+"/cart";
+//             },1500)
+            
+//             // document.location.href = homeurl;
+//         })
+//     })
+// }
     
 function show_add_cart() {
     var x = document.getElementById("snackbar");
@@ -650,6 +768,7 @@ function toast({ title = "", message = "", type = "info", duration = 3000 }) {
 
     toast.classList.add("toast", `toast--${type}`);
     toast.style.animation = `slideInLeft ease .3s, fadeOut linear 1s ${delay}s forwards`;
+    
 
     toast.innerHTML = `
                     <div class="toast__icon">
@@ -666,13 +785,68 @@ function toast({ title = "", message = "", type = "info", duration = 3000 }) {
     main.appendChild(toast);
     }
 }
-$(document).ready(function(){
-    $('.imgs').slick({
-        dots: false,
-        infinite: true,
-        speed: 500,
-        autoplay: true,
-        fade: true,
-        cssEase: 'linear'
+if(document.querySelector(".imgs")){
+    $(document).ready(function(){
+        $('.imgs').slick({
+            dots: false,
+            infinite: true,
+            speed: 500,
+            autoplay: true,
+            fade: true,
+            cssEase: 'linear',
+            adaptiveHeight: true
+        });
     });
-  });
+
+}
+var product_detail_list_imgs = document.querySelectorAll(".product_detail_list--imgs .product_detail_element--img");
+product_detail_list_imgs.forEach(img => {
+    img.addEventListener('click',()=>{
+        console.log(img.getAttribute("src"));
+        var bigImg = document.querySelector(".product_detail_feature__img img");
+        bigImg.setAttribute("src",img.getAttribute("src"));
+    })
+})
+var products = document.querySelectorAll(".product__list .product__element");
+
+var observer = new IntersectionObserver(entries =>{
+    // console.log(entries);
+    entries.forEach(entry=>entry.target.classList.toggle("show",entry.isIntersecting))
+},{threshold: 0.02}
+)
+products.forEach(product=>{
+    // product.style.transitionDelay = 
+    observer.observe(product);
+})
+var link_promotions = document.querySelectorAll(".link_promotion .content a");
+link_promotions.forEach(link=>{
+    observer.observe(link);
+})
+
+//responsive
+function responsive992px(x) {
+    if (x.matches) { // If media query matches
+        var menu = document.querySelector(".menu");
+        menu.style.width = "100vw";
+        // var menu_items = menu.querySelectorAll(".menu-item");
+        // menu_items.forEach(menu_item =>{
+        //     menu_item.addEventListener('mouseover',()=>{
+        //         menu_item.querySelector("a").style.color="orangered";
+        //     })
+        //     menu_item.addEventListener('mouseleave',()=>{
+        //         menu_item.querySelector("a").style.color="black";
+        //     })
+        // })
+    }
+    // var menu_btn =  document.querySelector(".menu_btn");
+    // menu_btn.addEventListener('click',()=>{
+        
+    // })
+    // } else {
+    // //   document.body.style.backgroundColor = "pink";
+    // }
+}
+
+var x = window.matchMedia("(max-width: 992px)")
+responsive992px(x) // Call listener function at run time
+x.addListener(responsive992px) // Attach listener function on state changes

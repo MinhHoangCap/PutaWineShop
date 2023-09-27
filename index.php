@@ -26,8 +26,8 @@
             <img src=<?php echo $img_1?> alt="" srcset="">
             <div class="banner__content">
                 <div class="wrapper">
-                    <div class="banner__heading">Vạn Tín Wine</div>
-                    <div class="banner__subheading">Cung cấp dịch vụ ngành rượu</div>
+                    <div class="banner__heading"><?php echo get_field("banner_1_heading",'options')?></div>
+                    <div class="banner__subheading"><?php echo get_field("banner_1_content",'options')?></div>
                     <a class="banner__link" href = <?php echo $link_1?>>Xem thêm</a>
                 </div>
             </div>
@@ -41,8 +41,8 @@
         <img src=<?php echo $img_2?> alt="" srcset="">
         <div class="banner__content">
             <div class="wrapper">
-                <div class="banner__heading">Vạn Tín Wine</div>
-                <div class="banner__subheading">Cung cấp thực phẩm đùi heo muối Jambon Tây Ban Nha</div>
+                <div class="banner__heading"><?php echo get_field("banner_2_heading",'options')?></div>
+                <div class="banner__subheading"><?php echo get_field("banner_2_content",'options')?></div>
                 <a class="banner__link" href = "<?php echo $link_2?>">Xem thêm</a>
             </div>
         </div>

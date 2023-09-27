@@ -326,7 +326,14 @@ add_action( 'wp_ajax_nopriv_buy_list', 'buy_list' );
 function buy_list() {
 	$id = $_POST['id'];
 	$count = $_POST['count'];
-	$_SESSION['cart'][$id]=['count'=>$count];
+	if(!isset($_SESSION['cart'][$id]))
+	{
+		$_SESSION['cart'][$id]['count'] = $count;
+	}
+	else{
+		$item_count = $_SESSION['cart'][$id]['count'];
+		$_SESSION['cart'][$id]['count']= $item_count + $count;
+	}
 	exit(json_encode($_SESSION['cart']));
 	
 
@@ -379,13 +386,22 @@ add_action( 'wp_ajax_nopriv_payment', 'payment' );
 
 function payment(){
 	$payment_list = $_POST['payment_list'];
-
+	$message_content = "";
 	foreach($payment_list as $payment_item){
+		$message_content.=$payment_item['id'] ." ". (int)$payment_item['count'];
 		update_field('ordered_quantity', get_field('ordered_quantity', $payment_item['id']) + (int)$payment_item['count'], $payment_item['id']);
 	}
-	
+// 	$emailTo = get_field('email','option');
+	$emailTo = 'minhhoangcap@gmail.com';
+	$subject = 'Đơn hàng mới !';
+	$body = "<h2><Thông tin liên hệ/h2>";
+	$body .= $message_content;
+	$rs = wp_mail($emailTo, $subject, $body);
 	unset($_SESSION['cart']);
-	exit("da post thanh cong");
+	if($rs) $rs = 'success:Đã mua hàng thành công!';
+	else $rs = 'error: Mua hàng không thành công!';
+	exit($rs);
+	// exit("da post thanh cong");
 }
 
 // views

@@ -16,7 +16,7 @@
             ),
             
         ));
-        echo "<h2 class='taxonomy__title'>Sản phẩm liên quan</h2>";
+        echo "<h2 class='taxonomy__title relate'>Sản phẩm liên quan</h2>";
         if($posts->have_posts()){
          
             echo "<ul class='taxonomy__list'>";
@@ -24,7 +24,6 @@
                 $post = $posts->the_post();
                 $post_id = get_the_ID();
                 $gia=get_field("price");
-                $donvi= get_field("currency");
                 $img_link = get_the_post_thumbnail() ;
                 $post_link = get_permalink(); 
                 $type = get_term(wp_get_post_categories( $post_id )[0])->slug;
@@ -44,8 +43,8 @@
 						</div>";  
                     echo "<p class='product__name'>".get_the_title()."</p>";
                     echo "<div class='product__prices'>";
-                        echo "<p class='product__price'>".(number_format($gia,0,'.',',').$donvi)."</p>";
-                        echo "<p class='product__price--sale'>".(number_format($gia -50,0,'.',',').$donvi)."</p>";
+                        echo "<p class='product__price'>".currency_format($gia)."</p>";
+                        echo "<p class='product__price--sale'>".currency_format($gia -50)."</p>";
                     echo "</div>";
                     echo "<button id=$post_id producttype=$type class='buy__btn'>THÊM VÀO GIỎ HÀNG</button>";
 //                     echo "";

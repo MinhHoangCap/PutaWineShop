@@ -31,14 +31,16 @@
                         $query->the_post();
                         $post_id = get_the_ID() ;
                         ?>
-                        <div class="post__element">
-								<div class="post__img"><?php echo get_the_post_thumbnail($post_id);?></div>
-								<div class="wrapper">
-									<div class="post__heading"><?php echo get_the_title( $post_id )?></div>
-									<div class="post__content"><?php echo get_the_content();?></div>
-									<a class="post__link" href='<?php echo get_the_permalink($post_id)?>'>Xem thêm</a>
-								</div>
-                        </div>
+                        <a href='<?php echo get_the_permalink($post_id)?>'>
+                            <div class="post__element">
+                                    <div class="post__img"><?php echo get_the_post_thumbnail($post_id);?></div>
+                                    <div class="wrapper">
+                                        <div class="post__heading"><?php echo get_the_title( $post_id )?></div>
+                                        <div class="post__content"><?php echo get_the_content();?></div>
+                                        <div class="post__link">Xem thêm</div>
+                                    </div>
+                            </div>
+                        </a>
                         <?php
                     }
                 }

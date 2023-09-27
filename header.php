@@ -62,14 +62,18 @@
             <header>
                 
                 <?php $home_img = get_field("slider_home",'options');
-                
+                // style='padding-bottom: 100px;'
                 ?>
-                <div class="header" <?php if(is_home()) echo "style='padding-bottom: 100px;'"; else echo "style = 'background-color: white; padding:0;'"; ?>>
+                <div class="header" <?php if(is_home()) echo ""; else echo "style = 'background-color: white; padding:0;'"; ?>>
                     <?php if(is_home()) { ?>
                     <div class="imgs" >
                         <?php
                             foreach($home_img as $img){
-                                echo "<img src=$img alt=''>";
+                                ?>
+                                <div class="img">
+                                    <img src=<?php echo $img?> alt=''>
+                                </div>
+                        <?php
                             }
                         ?>
                     </div>                  
@@ -89,6 +93,7 @@
                   
                 
                     <div class="menu_btn" ><i class="fa-solid fa-bars"></i></div>
+                    
                     <div class="menu" <?php if(!is_home()) echo "style='order: 0; width: 60%;'"?>>
                     <?php 
                         wp_nav_menu(array(
@@ -96,8 +101,10 @@
                             'menu_class' => 'menu_home'
                     
                         ))
-                    ?>    
+                    ?>
+                        <div class="close_menu_btn" ><i class="fa-solid fa-xmark"></i></div>
                     </div>
+                    
                     <?php if(is_home()) {?>
                     <div class="heading">Vantin Wine Shop</div>
                     <div class="link_field">

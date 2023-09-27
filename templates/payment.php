@@ -23,20 +23,21 @@ Template Name: Payment
             $tong = 0;
             foreach(array_keys($_SESSION['cart']) as $product_id){
                 $count = $_SESSION['cart'][$product_id]['count'];
-                $tong += get_field("gia",$product_id)* $_SESSION['cart'][$product_id]['count'];
+                $tong += get_field("price",$product_id)* $_SESSION['cart'][$product_id]['count'];
                 echo "<div class='payment_product' product_id=$product_id count=$count>";
                     echo "<p>".get_the_title($product_id)." x ".$_SESSION['cart'][$product_id]['count']."</p>";
-                    echo "<p>".number_format(get_field("gia",$product_id) * $_SESSION['cart'][$product_id]['count'],0,'.',',')."đ</p>";
+                    echo "<p>".currency_format(get_field("price",$product_id) * $_SESSION['cart'][$product_id]['count'])."</p>";
                 echo "</div>";
             }
             echo "<div class='payment_field'>";
                     echo "<p>Tổng tiền</p>";
-                    echo "<p>".number_format($tong,0,'.',',')."đ</p>";
+                    echo "<p>".currency_format($tong)."</p>";
             echo "</div>";
             echo "<div class='payment_field'>";
                     echo "<p>Thanh toán</p>";
-                    echo "<p>".number_format($tong,0,'.',',')."đ</p>";
+                    echo "<p>".currency_format($tong)."</p>";
             echo "</div>";
+            echo "<div class='loader'></div>";
             echo "<button class='payment_btn' type='submit'>Đặt ngay</button>"
             ?>
         </div>

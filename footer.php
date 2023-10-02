@@ -1,8 +1,28 @@
 <button onclick="topFunction()" id="moveTopBtn" title="Go to top"><i class="fa-sharp fa-solid fa-angle-up"></i></button>
-<div id="snackbar">Đã thêm vào giỏ hàng</div>
-<div id="payment_alert">Đã thanh toán</div>
-<div id="contact_alert"></div>
+<div class="social_mobile">
+    <?php include("templates/part-social.php");?>
+
+</div>
 <div id="toast"></div>
+<div class="menu_in_mobile">
+    <div class="shop_logo">
+        <a href='<?php echo home_url()?>'>
+            <?php 
+                    echo wp_get_attachment_image(get_field("logo_not_home",'options'));
+            ?>
+
+        </a>
+    </div>
+    <?php
+        
+        wp_nav_menu(array(
+            'menu'=> 'main nav',
+            'menu_class' => 'menu_mobile'
+        ));
+
+    ?>
+    <div class="close_menu_btn" ><i class="fa-solid fa-xmark"></i></div>
+</div>
 <footer class="footer" style="background:url(<?php echo get_field('background_footer','options')?>) round">
 
         
@@ -11,7 +31,7 @@
             <div class="infomation flat">
                 <div class="footer__heading">Thông tin liên hệ</div>
 
-                <p>Địa chỉ:206/60A Đường 2/4 Vạn Thắng - TP. Nha Trang</p>
+                <p>Địa chỉ:<?php echo get_field("address","options")?></p>
                 <p>Email:<?php echo get_field("email","options")?></p>
                 <p>Hotline:<?php echo get_field("hotline","options")?></p>
                 <p>Online:Truy cập</p>

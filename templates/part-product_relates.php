@@ -23,33 +23,7 @@
             while ($posts->have_posts()){
                 $post = $posts->the_post();
                 $post_id = get_the_ID();
-                $gia=get_field("price");
-                $img_link = get_the_post_thumbnail() ;
-                $post_link = get_permalink(); 
-                $type = get_term(wp_get_post_categories( $post_id )[0])->slug;
-				if(isset($_COOKIE['favourite_cart'])) 
-                    {
-                        $cart = json_decode(str_replace('\\', '', $_COOKIE['favourite_cart']));
-                    } 
-                    else {
-                        $cart = array();
-                    }
-                    (in_array($post_id,$cart))? $string = " fa-solid " : $string = " fa-regular ";
-                echo "<a href='$post_link'>";
-                    echo "<li class='product__element'>" ;
-                
-                    echo "<div class='product__img'>".$img_link."
-							<button id=$post_id class='like__btn' ><i class='fa-heart".$string."'></i></button>
-						</div>";  
-                    echo "<p class='product__name'>".get_the_title()."</p>";
-                    echo "<div class='product__prices'>";
-                        echo "<p class='product__price'>".currency_format($gia)."</p>";
-                        echo "<p class='product__price--sale'>".currency_format($gia -50)."</p>";
-                    echo "</div>";
-                    echo "<button id=$post_id producttype=$type class='buy__btn'>THÊM VÀO GIỎ HÀNG</button>";
-//                     echo "";
-                    echo '</li>';
-                echo '</a>';
+                product($post_id);
             }
             echo '</ul>';
         } else{

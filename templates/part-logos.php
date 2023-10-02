@@ -1,11 +1,14 @@
 <?php 
         $logos = get_field("partner",'options');
-        echo "<div class='logos'>";
-        foreach($logos as $logo){
+        // print_r($logos);?>
+        <div class='logos' partner_size='<?php echo count($logos);?>'>
+        <?php foreach($logos as $logo){
             $logo_img=$logo['logo'];
             echo "
             <div class='logo'>
-                <img  src='$logo_img'/>
+                <div class='logo_img'>
+                    <img  src='$logo_img'/>
+                </div>
             </div>";
             
         }

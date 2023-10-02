@@ -21,12 +21,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/venobox/2.0.4/venobox.min.css"
         integrity="sha512-HFaR9dTfvVVIkca85XvaYOlbZqtyRp5f7cyfb3ycnQU60RM1qjmJKq7qZPLDI+nudOkFDuY5giiwQqfbP7M36g=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="<?php bloginfo('template_directory') ?>/main.css">
-
-
-    <link rel="stylesheet" href="<?php bloginfo('template_directory') ?>/assets/css/splide.min.css">
-    <link rel="stylesheet" href="<?php bloginfo('template_directory') ?>/assets/css/slick.css"/>
-    <link rel="stylesheet" href="<?php bloginfo('template_directory') ?>/assets/css/slick-theme.css"/>
+        
+        
+        <link rel="stylesheet" href="<?php bloginfo('template_directory') ?>/assets/css/splide.min.css">
+        <link rel="stylesheet" href="<?php bloginfo('template_directory') ?>/assets/css/slick.css"/>
+        <link rel="stylesheet" href="<?php bloginfo('template_directory') ?>/assets/css/slick-theme.css"/>
+        <link rel="stylesheet" href="<?php bloginfo('template_directory') ?>/main.css">
   
     <!-- Link script -->
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
@@ -50,9 +50,9 @@
 
     <script type="text/javascript" src="//code.jquery.com/jquery-3.7.0.min.js"></script>
 <script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-    <script defer src="<?php bloginfo('template_directory') ?>/assets/js/script.js"></script>
-    <script defer src="<?php bloginfo('template_directory') ?>/assets/js/splide.min.js"></script>
-    <script defer src="<?php bloginfo('template_directory') ?>/assets/js/slick.min.js"></script>
+<script defer src="<?php bloginfo('template_directory') ?>/assets/js/splide.min.js"></script>
+<script defer src="<?php bloginfo('template_directory') ?>/assets/js/slick.min.js"></script>
+<script defer src="<?php bloginfo('template_directory') ?>/assets/js/script.js"></script>
     <?php wp_head(); ?>
 </head>
 
@@ -64,7 +64,7 @@
                 <?php $home_img = get_field("slider_home",'options');
                 // style='padding-bottom: 100px;'
                 ?>
-                <div class="header" <?php if(is_home()) echo ""; else echo "style = 'background-color: white; padding:0;'"; ?>>
+                <div class="header" <?php if(is_home()) echo ""; else echo "style = 'background-color: white; padding:10px;'"; ?>>
                     <?php if(is_home()) { ?>
                     <div class="imgs" >
                         <?php
@@ -75,9 +75,10 @@
                                 </div>
                         <?php
                             }
+                        
                         ?>
-                    </div>                  
-                    <?php include_once("templates/part-social.php");}?>
+                    </div>					
+                    <?php include("templates/part-social.php");}?>
                     <div class="shop_logo">
                         <a href='<?php echo home_url()?>'>
                             <?php 
@@ -94,24 +95,25 @@
                 
                     <div class="menu_btn" ><i class="fa-solid fa-bars"></i></div>
                     
-                    <div class="menu" <?php if(!is_home()) echo "style='order: 0; width: 60%;'"?>>
-                    <?php 
-                        wp_nav_menu(array(
-                            'menu'=> 'main nav',
-                            'menu_class' => 'menu_home'
-                    
-                        ))
+                    <div class="menu" <?php if(!is_home()) echo "style='order: 0; width: 70%;'"?>>
+                    <?php
+                        
+                            wp_nav_menu(array(
+                                'menu'=> 'main nav',
+                                'menu_class' => 'menu_home'
+                            ));
                     ?>
-                        <div class="close_menu_btn" ><i class="fa-solid fa-xmark"></i></div>
+                        <!-- <div class="close_menu_btn" ><i class="fa-solid fa-xmark"></i></div> -->
                     </div>
                     
                     <?php if(is_home()) {?>
-                    <div class="heading">Vantin Wine Shop</div>
+                    <div class="heading"><?php echo get_field("name",'options')?></div>
                     <div class="link_field">
                         <a href = <?php echo get_field("page_content","options")?> class='find_out'>Tìm hiểu thêm</a>
                     </div>
                     <?php } ?>
                 </div>
             </header>
+
 
         

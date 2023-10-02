@@ -41,10 +41,11 @@
         }
         else if(is_single()){
 
-            $category = get_the_category();
+            // $category = get_the_category();
+            $title = get_the_title();
             echo "<div class='page__banner--aboutus'>";
                 
-                echo "<div class='title'>".$category[0]->name."</div>";
+                echo "<div class='title'>".$title."</div>";
             echo "</div>";
         }
         else{

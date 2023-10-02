@@ -102,7 +102,13 @@ get_header();
         foreach($_SESSION['cart'] as $elementid => $value ){
             $post =get_post($elementid);
             $title = $post->post_title;
-            $price = get_field('price',$elementid);
+            if(get_field("price_sale",$elementid)!=0)
+            {
+                $price = get_field("price_sale",$elementid);
+            }
+            else{
+                $price = get_field("price",$elementid);
+            }
             $photo = get_the_post_thumbnail_url($elementid);
             $permalink = get_permalink($elementid);
             $count = $value['count'];
@@ -111,14 +117,17 @@ get_header();
 			
 			// number_format($sum_product,0,'.',',')
             echo "<tr class='product_element' product_id=$elementid>
-                <td><button id=$elementid type='button' class='cart_delete'>X</button></td>
+                <td>
+                    <div class='loader'></div>
+                    <button id=$elementid type='button' class='cart_delete'>X</button>
+                </td>
                 <td class='cart_product_img'><img  src=$photo></td>
                 <td class='cart_product_name'>
                     <a href='$permalink'>
                         $title
                     </a>
                 </td>
-                <td class='unit_price' unit_price=$price>".number_format($price,0,'.',',')."đ</td>
+                <td class='unit_price' unit_price=$price>".currency_format($price)."</td>
                 <td class='cart_product_count' >
                     <div class='count_wrapper'>
                         <div class='count_change_btn decrease_btn'>
@@ -138,7 +147,7 @@ get_header();
         };
         echo "</table>";
         echo "<div class='display_sum_cart'>";
-        echo "<p>Tổng tiền cần thanh toán:</p>"."<p class='sum_cart' sum_cart=$sum>".number_format($sum,0,'.',',')."</p>";
+        echo "<p>Tổng tiền cần thanh toán:</p>"."<p class='sum_cart' sum_cart=$sum>".currency_format($sum)."</p>";
         echo "</div>";
 
         echo "

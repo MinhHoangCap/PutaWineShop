@@ -233,7 +233,7 @@ add_action( 'wp_ajax_nopriv_footer_form', 'footer_form' );
 function footer_form() {
 	$footer_email = $_POST["footer_email"];
 	
-	$emailTo = get_text_acf('email');
+	$emailTo = get_field('email','options');
 	$subject = 'Email đăng kí nhận khuyến mãi';
 	$body = "Email: ".$footer_email;
 	$rs = wp_mail($emailTo, $subject, $body);
@@ -260,12 +260,11 @@ function contact_form() {
 	$emailTo = get_field('email','option');
 	// $emailTo = 'minhhoangcap@gmail.com';
 	$subject = 'Thông báo yêu cầu liên hệ mới !';
-	$body = "<h2><Thông tin liên hệ/h2>";
+	$body = "<Thông tin liên hệ";
 	$body .= '
-	<p>Họ tên: '.$name.'</p>
-	<p>Điện thoại: '.$phone.'</p>
-	<p>Nội dung yêu cầu: '.$content.'</p>
-	';
+	Họ tên: '.$name.'
+	Điện thoại: '.$phone.'
+	Nội dung yêu cầu: '.$content;
 	// echo $body;
 	$rs = wp_mail($emailTo, $subject, $body);
 	if($rs) $rs = 'success:Đăng kí thành công!';
@@ -388,14 +387,20 @@ function payment(){
 	$payment_list = $_POST['payment_list'];
 	$message_content = "";
 	foreach($payment_list as $payment_item){
-		$message_content.=$payment_item['id'] ." ". (int)$payment_item['count'];
+		$message_content.=get_the_title($payment_item['id']) ."lấy số lượng". (int)$payment_item['count']."\n";
 		update_field('ordered_quantity', get_field('ordered_quantity', $payment_item['id']) + (int)$payment_item['count'], $payment_item['id']);
 	}
-// 	$emailTo = get_field('email','option');
-	$emailTo = 'minhhoangcap@gmail.com';
+	$emailTo = get_field('email','option');
+	// $emailTo = 'minhhoangcap@gmail.com';
 	$subject = 'Đơn hàng mới !';
-	$body = "<h2><Thông tin liên hệ/h2>";
+	$body = "Nội dung đơn hàng \n";
 	$body .= $message_content;
+	$body .= "Thông tin liên hệ \n";
+	$body .= "Tên khách hàng : ".$_POST['name']."\n";
+	$body .= "Email : ".$_POST['email']."\n";
+	$body .= "Số điện thoại : ".$_POST['phone']."\n";
+	$body .= "Địa chỉ : ".$_POST['address']."\n";
+	$body .= "Ghi chú : ".$_POST['note']."\n";
 	$rs = wp_mail($emailTo, $subject, $body);
 	unset($_SESSION['cart']);
 	if($rs) $rs = 'success:Đã mua hàng thành công!';
@@ -435,3 +440,45 @@ function wpdocs_custom_excerpt_length( $length ) {
 	return 50;
 }
 add_filter( 'excerpt_length', 'wpdocs_custom_excerpt_length', 999 );
+
+function product($post_id){
+	$price=get_field("price",$post_id);
+	$price_sale=get_field("price_sale",$post_id);
+	// $donvi= get_field("currency");
+	$img_link = get_the_post_thumbnail($post_id) ;
+	$post_link = get_permalink($post_id); 
+	$terms = get_the_terms($post_id, 'product_cat');
+	$first_term = reset($terms);
+	$type = $first_term->slug;
+
+	if(isset($_COOKIE['favourite_cart'])) 
+		{
+			$cart = json_decode(str_replace('\\', '', $_COOKIE['favourite_cart']));
+		} 
+		else {
+			$cart = array();
+		}
+		(in_array($post_id,$cart))? $string = " fa-solid in-favourite" : $string = " fa-regular ";
+	?><a href='<?php echo $post_link?>'>
+		<li class='product__element'>
+	
+		<div class='product__img'><?php echo $img_link?>
+				<button id= <?php echo $post_id?> class='like__btn' ><i class='fa-heart <?php echo $string?>'></i></button>
+			</div> 
+			<p class='product__name'><?php echo get_the_title($post_id)?></p>
+			<div class ='product_detail__prices'>
+			<?php
+				if($price_sale != 0){
+					?>
+					<p class='product__price sale'><?php echo currency_format($price_sale)?></p>
+					<p class='product__price'><?php echo currency_format($price)?></p>
+					<?php } else { ?>
+						<p class='product__price sale'><?php echo currency_format($price)?></p>
+						<?php } ?>
+			</div>
+		<button id=<?php echo $post_id?> producttype='<?php echo $type?>' class='buy__btn'>THÊM VÀO GIỎ HÀNG</button>
+			<?php print_r($type)?>
+		</li>
+	</a>
+<?php
+}

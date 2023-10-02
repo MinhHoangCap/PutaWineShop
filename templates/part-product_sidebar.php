@@ -23,23 +23,32 @@
             while ($posts->have_posts()){
                 $post = $posts->the_post();
                 $post;
+                $id = get_the_ID();
                 $price=get_field("price");
-                $donvi= get_field("currency");
+                $price_sale = get_field("price_sale");
                 $img_link = get_the_post_thumbnail() ;
-                echo "<li class='category__element'>" ;
+                ?>
+                <li class='category__element'>
                 
-                echo "<div class='product__img'>".$img_link."</div>";  
-                echo "<div class='wrapper'>";
-                    echo "<p class='product__name'>".get_the_title()."</p>";
-                    echo "<div class='product__prices'>";
-                        echo "<p class='product__price'>".currency_format($price)."</p>";
-                        echo "<p class='product__price--sale'>".currency_format($price - 50)."</p>";
-                    echo "</div>";
+                <div class='product__img'><?php echo $img_link?></div>  
+                <div class='wrapper'>
+                    <p class='product__name'><?php echo get_the_title()?></p>
+                    <div class ='product_detail__prices'>
+                        <?php
+                            if($price_sale != 0){
+                                ?>
+                                <p class='product__price sale'><?php echo currency_format($price_sale)?></p>
+                                <p class='product__price'><?php echo currency_format($price)?></p>
+                            <?php } else { ?>
+                                <p class='product__price sale'><?php echo currency_format($price)?></p>
+                            <?php } ?>
+                    </div>
                 
-                    echo "<button class='buy__btn'>THÊM GIỎ HÀNG</button>";
+                 <?php   echo "<button id ='$id' class='buy__btn'>THÊM GIỎ HÀNG</button>";
                 echo "</div>";
-                
-                echo '</li>';
+                ?>
+                </li>
+                <?php
             }
             echo '</ul>';
         } else{

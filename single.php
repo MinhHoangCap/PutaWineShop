@@ -15,7 +15,11 @@ setpostview(get_the_id());
                     <p class="link_post__title">
                         <?php echo get_the_title()?>
                     </p>
-                    <?php echo the_content(); ?>
+                    <p>
+                        <?php 
+                        $content = apply_filters('the_content', get_the_content());
+                        echo $content ; ?>
+                    </p>
                 </div>
                 
             </div>

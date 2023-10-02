@@ -23,10 +23,17 @@ Template Name: Payment
             $tong = 0;
             foreach(array_keys($_SESSION['cart']) as $product_id){
                 $count = $_SESSION['cart'][$product_id]['count'];
-                $tong += get_field("price",$product_id)* $_SESSION['cart'][$product_id]['count'];
+                if(get_field("price_sale",$product_id)!=0)
+                {
+                    $price = get_field("price_sale",$product_id);
+                }
+                else{
+                    $price = get_field("price",$product_id);
+                }
+                $tong += $price* $_SESSION['cart'][$product_id]['count'];
                 echo "<div class='payment_product' product_id=$product_id count=$count>";
                     echo "<p>".get_the_title($product_id)." x ".$_SESSION['cart'][$product_id]['count']."</p>";
-                    echo "<p>".currency_format(get_field("price",$product_id) * $_SESSION['cart'][$product_id]['count'])."</p>";
+                    echo "<p>".currency_format($price * $_SESSION['cart'][$product_id]['count'])."</p>";
                 echo "</div>";
             }
             echo "<div class='payment_field'>";
